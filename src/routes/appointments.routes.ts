@@ -4,11 +4,16 @@ import { startOfHour, parseISO } from 'date-fns';
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
 
 const appointmentsRouter = Router();
-
 // instanciando classe
 const appointmentsRepository = new AppointmentsRepository();
 
-appointmentsRouter.post('/', (request, reponse) => {
+appointmentsRouter.get('/', (request, response) => {
+  const appointments = appointmentsRepository.all();
+
+  return response.json(appointments);
+});
+
+appointmentsRouter.post('/', (request, response) => {
   // provider = profissional que ira atender o cliente
   // data de agendameto
   const { provider, date } = request.body;
@@ -21,14 +26,17 @@ appointmentsRouter.post('/', (request, reponse) => {
 
   // verifica se ja existe agendamento nessa data
   if (findAppointmentInSameDate) {
-    return reponse
+    return response
       .status(400)
       .json({ message: 'This appointment is already booked' });
   }
 
-  const appointment = appointmentsRepository.create(provider, parsedDate);
+  const appointment = appointmentsRepository.create({
+    provider,
+    date: parsedDate,
+  });
 
-  return reponse.json(appointment);
+  return response.json(appointment);
 });
 
 export default appointmentsRouter;
