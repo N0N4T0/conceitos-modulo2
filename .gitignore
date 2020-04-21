@@ -60,3 +60,5 @@ buck-out/
 
 
 yarn.lock
+node_modules
+migrations
