@@ -3,9 +3,9 @@ import { Router } from 'express';
 
 import AuthenticateUserService from '../services/AuthenticateUserService';
 
-const sessionRouter = Router();
+const sessionsRouter = Router();
 
-sessionRouter.post('/', async (request, response) => {
+sessionsRouter.post('/', async (request, response) => {
   try {
     const { email, password } = request.body;
 
@@ -24,4 +24,4 @@ sessionRouter.post('/', async (request, response) => {
   }
 });
 
-export default sessionRouter;
+export default sessionsRouter;
