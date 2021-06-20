@@ -26,10 +26,11 @@ export default function ensureAuthenticated(
   // Bearer sauidhasudh
   const [, token] = authHeader.split(' ');
 
+  // verify(token, secret)
   try {
     const decoded = verify(token, authConfig.jwt.secret);
 
-    // forçando um formato para variável
+    // forçar o tipo de variável usa o "as"
     const { sub } = decoded as TokenPayload;
 
     request.user = {
@@ -37,7 +38,7 @@ export default function ensureAuthenticated(
     };
 
     return next();
-  } catch (err) {
+  } catch {
     throw new AppError('Invalid JWT token', 401);
   }
 }

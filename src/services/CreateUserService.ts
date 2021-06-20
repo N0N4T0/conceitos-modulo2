@@ -1,3 +1,5 @@
+// Por não precisar de um método adcional não se criar um repository e usa-se o
+// getRepository
 import { getRepository } from 'typeorm';
 import { hash } from 'bcryptjs';
 
@@ -15,12 +17,12 @@ class CreateUserService {
   public async execute({ name, email, password }: Request): Promise<User> {
     const usersRepository = getRepository(User);
 
-    const checkUsersExists = await usersRepository.findOne({
+    const checkUserExists = await usersRepository.findOne({
       where: { email },
     });
 
-    if (checkUsersExists) {
-      throw new AppError('Email address already used.');
+    if (checkUserExists) {
+      throw new AppError('E-mail address already used');
     }
 
     const hashedPassword = await hash(password, 8);

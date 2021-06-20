@@ -1,3 +1,5 @@
+// Sobrescrevendo tipagem
+
 declare namespace Express {
   export interface Request {
     user: {

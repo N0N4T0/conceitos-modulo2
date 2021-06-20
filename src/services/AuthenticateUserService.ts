@@ -1,11 +1,12 @@
 import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
-import authConfig from '../config/auth';
 
 import AppError from '../errors/AppError';
 
 import User from '../models/User';
+
+import authConfig from '../config/auth';
 
 interface Request {
   email: string;
@@ -24,7 +25,7 @@ class AuthenticateUserService {
     const user = await usersRepository.findOne({ where: { email } });
 
     if (!user) {
-      throw new AppError('Inconrrect email/password combination.', 401);
+      throw new AppError('Incorrect email/password combination.', 401);
     }
 
     // user.password - Senha criptografada dentro do banco
@@ -33,12 +34,13 @@ class AuthenticateUserService {
     const passwordMatched = await compare(password, user.password);
 
     if (!passwordMatched) {
-      throw new AppError('Inconrrect email/password combination.', 401);
+      throw new AppError('Incorrect email/password combination.', 401);
     }
 
     // Usuário autenticado
-    const { secret, expiresIn } = authConfig.jwt;
+    const { expiresIn, secret } = authConfig.jwt;
 
+    // Sign = assinar com um token
     const token = sign({}, secret, {
       subject: user.id,
       expiresIn,

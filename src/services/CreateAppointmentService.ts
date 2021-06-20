@@ -14,21 +14,22 @@ import AppointmentsRepository from '../repositories/AppointmentsRepository';
 
 // DTO
 interface Request {
-  provider_id: string;
   date: Date;
+  provider_id: string;
 }
 
 // Dependency Invertion
 class CreateAppointmentService {
   public async execute({ date, provider_id }: Request): Promise<Appointment> {
-    const appointmentsRepository = getCustomRepository(AppointmentsRepository);
+    const appointmentsRepository = getCustomRepository(
+      AppointmentsRepository,
+    );
 
     // regra de negócio
     const appointmentDate = startOfHour(date);
 
-    const findAppointmentInSameDate = await appointmentsRepository.findByDate(
-      appointmentDate,
-    );
+    const findAppointmentInSameDate =
+      await appointmentsRepository.findByDate(appointmentDate);
 
     // verifica se ja existe agendamento nessa data
     if (findAppointmentInSameDate) {

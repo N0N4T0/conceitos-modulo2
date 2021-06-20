@@ -6,8 +6,9 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+// Entidade de usuários
 @Entity('users')
-class Users {
+class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -15,10 +16,10 @@ class Users {
   name: string;
 
   @Column()
-  email: string;
+  password: string;
 
   @Column()
-  password: string;
+  email: string;
 
   @Column()
   avatar: string;
@@ -30,4 +31,4 @@ class Users {
   updated_at: Date;
 }
 
-export default Users;
+export default User;
